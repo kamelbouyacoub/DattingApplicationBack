@@ -1,6 +1,7 @@
 ﻿using DattingApplication.Data;
 using DattingApplication.DTOs;
 using DattingApplication.Entities;
+using DattingApplication.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,13 +16,17 @@ namespace DattingApplication.Controllers
     public class AccountController : BaseController
     {
         private readonly DataContext Context;
-        public AccountController(DataContext context)
+
+        public readonly ITokenService TokenService;
+
+        public AccountController(DataContext context, ITokenService tokenService)
         {
             Context = context;
+            TokenService = tokenService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if (await UserExist(registerDto.UserName)) return BadRequest("UserName is taken");
             using var hmac = new HMACSHA512();
@@ -36,7 +41,11 @@ namespace DattingApplication.Controllers
             Context.Users.Add(user);
             await Context.SaveChangesAsync();
 
-            return user;
+            return new UserDto
+            {
+                UserName = user.UserName,
+                Token = TokenService.CreateToken(user)
+            };
         }
 
         [HttpPost]
