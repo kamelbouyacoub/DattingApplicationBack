@@ -38,6 +38,23 @@ namespace DattingApplication.Controllers
 
             return user;
         }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult<AppUser>> Login(DtoLogin loginDto)
+        {
+            var user = await Context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.UserName);
+            if (user == null) return Unauthorized("Invalid userName");
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+            for (int i = 0; i < computedHash.Length; i++)
+            {
+                if (user.PasswordHash[i] != computedHash[i]) return Unauthorized("Password incorrect");
+            }
+
+            return user;
+        }
         
         private async Task<bool> UserExist(string userName)
         {
