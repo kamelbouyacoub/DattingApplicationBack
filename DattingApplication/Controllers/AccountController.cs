@@ -50,7 +50,7 @@ namespace DattingApplication.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<AppUser>> Login(DtoLogin loginDto)
+        public async Task<ActionResult<UserDto>> Login(DtoLogin loginDto)
         {
             var user = await Context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.UserName);
             if (user == null) return Unauthorized("Invalid userName");
@@ -62,7 +62,11 @@ namespace DattingApplication.Controllers
                 if (user.PasswordHash[i] != computedHash[i]) return Unauthorized("Password incorrect");
             }
 
-            return user;
+            return new UserDto
+            {
+                UserName = user.UserName,
+                Token = TokenService.CreateToken(user)
+            };
         }
         
         private async Task<bool> UserExist(string userName)

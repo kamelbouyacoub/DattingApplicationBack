@@ -1,4 +1,5 @@
 ﻿using DattingApplication.Data;
+using DattingApplication.Helpers;
 using DattingApplication.Interfaces;
 using DattingApplication.Services;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,8 @@ namespace DattingApplication.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration _config)
         {
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlite(_config.GetConnectionString("DefaultConnection"));

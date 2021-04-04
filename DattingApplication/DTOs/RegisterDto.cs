@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿using System.ComponentModel.DataAnnotations;
+ 
 namespace DattingApplication.DTOs
 {
     public class RegisterDto
@@ -11,6 +7,7 @@ namespace DattingApplication.DTOs
         [Required]
         public string UserName { get; set; }
         [Required]
+        [StringLength(8, MinimumLength = 4)]
         public string Password { get; set; }
     }
 }

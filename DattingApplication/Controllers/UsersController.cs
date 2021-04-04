@@ -1,5 +1,7 @@
-﻿using DattingApplication.Data;
+﻿using AutoMapper;
+using DattingApplication.Data;
 using DattingApplication.Entities;
+using DattingApplication.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,26 +14,32 @@ using System.Threading.Tasks;
 namespace DattingApplication.Controllers
 {
   
+    [Authorize]
     public class UsersController : BaseController
     {
-        private readonly DataContext _context;
-        public UsersController(DataContext context)
+        private readonly IUserRepository UserRepository;
+        private readonly IMapper mapper;
+
+        public UsersController(IUserRepository userREpository, IMapper mapper)
         {
-            _context = context;
+            UserRepository = userREpository;
+            this.mapper = mapper;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {
-            return  await _context.Users.ToListAsync();
+            var users = await UserRepository.GetMembersAsync();
+            return Ok(users);
         }
 
         [Authorize]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetUsers(int id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            return  await _context.Users.FindAsync(id);
+            var user = await UserRepository.GetMemberAsync(username);
+             return Ok(user);
         }
     }
 }
