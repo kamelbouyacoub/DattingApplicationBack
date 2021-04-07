@@ -14,6 +14,9 @@ namespace DattingApplication.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserName = table.Column<string>(type: "TEXT", nullable: true),
+                    Introduction = table.Column<string>(type: "TEXT", nullable: true),
+                    Interests = table.Column<string>(type: "TEXT", nullable: true),
+                    KnownAs = table.Column<string>(type: "TEXT", nullable: true),
                     PasswordHash = table.Column<byte[]>(type: "BLOB", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "BLOB", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: false),
