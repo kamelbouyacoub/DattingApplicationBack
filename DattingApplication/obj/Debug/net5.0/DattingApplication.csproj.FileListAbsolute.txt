@@ -67,3 +67,6 @@ C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\
 C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Data\UserSeedData.json
 C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\AutoMapper.dll
 C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\CloudinaryDotNet.dll
+C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Microsoft.Extensions.WebEncoders.dll
+C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Newtonsoft.Json.dll

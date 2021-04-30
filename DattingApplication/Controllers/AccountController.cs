@@ -18,11 +18,13 @@ namespace DattingApplication.Controllers
         private readonly DataContext Context;
 
         public readonly ITokenService TokenService;
+        public readonly IUserRepository UserRepository;
 
-        public AccountController(DataContext context, ITokenService tokenService)
+        public AccountController(DataContext context, ITokenService tokenService, IUserRepository userRepository)
         {
             Context = context;
             TokenService = tokenService;
+            UserRepository = userRepository;
         }
 
         [HttpPost("register")]
@@ -52,7 +54,7 @@ namespace DattingApplication.Controllers
         [Route("login")]
         public async Task<ActionResult<UserDto>> Login(DtoLogin loginDto)
         {
-            var user = await Context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.UserName);
+            var user = await UserRepository.GetUserByUserNameAsync(loginDto.UserName);
             if (user == null) return Unauthorized("Invalid userName");
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -65,6 +67,7 @@ namespace DattingApplication.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
+                PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url,
                 Token = TokenService.CreateToken(user)
             };
         }
