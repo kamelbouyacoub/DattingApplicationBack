@@ -16,7 +16,6 @@ namespace DattingApplication.Entities
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public string KnowAs { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
         public DateTime LastActive { get; set; } = DateTime.Now;
         public string Gender { get; set; }

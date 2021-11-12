@@ -1,4 +1,5 @@
-﻿using DattingApplication.Data;
+﻿using AutoMapper;
+using DattingApplication.Data;
 using DattingApplication.DTOs;
 using DattingApplication.Entities;
 using DattingApplication.Interfaces;
@@ -19,26 +20,26 @@ namespace DattingApplication.Controllers
 
         public readonly ITokenService TokenService;
         public readonly IUserRepository UserRepository;
+        public readonly IMapper _mapper;
 
-        public AccountController(DataContext context, ITokenService tokenService, IUserRepository userRepository)
+        public AccountController(DataContext context, ITokenService tokenService, IUserRepository userRepository, IMapper mapper)
         {
             Context = context;
             TokenService = tokenService;
             UserRepository = userRepository;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if (await UserExist(registerDto.UserName)) return BadRequest("UserName is taken");
+            var user = _mapper.Map<AppUser>(registerDto);
             using var hmac = new HMACSHA512();
 
-            var user = new AppUser
-            {
-                UserName = registerDto.UserName.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key
-            };
+            user.UserName = registerDto.UserName.ToLower();
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+            user.PasswordSalt = hmac.Key;
 
             Context.Users.Add(user);
             await Context.SaveChangesAsync();
@@ -46,7 +47,8 @@ namespace DattingApplication.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
-                Token = TokenService.CreateToken(user)
+                Token = TokenService.CreateToken(user),
+                KnownAs = user.KnownAs
             };
         }
 
@@ -68,7 +70,8 @@ namespace DattingApplication.Controllers
             {
                 UserName = user.UserName,
                 PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url,
-                Token = TokenService.CreateToken(user)
+                Token = TokenService.CreateToken(user),
+                KnownAs = user.KnownAs
             };
         }
         

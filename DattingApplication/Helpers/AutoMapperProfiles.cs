@@ -17,6 +17,7 @@ namespace DattingApplication.Helpers
                 .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalculeAge()));
             CreateMap<Photo, PhotoDto>();
+            CreateMap<RegisterDto, AppUser>();
             CreateMap<MemberUpdateDto, AppUser>();
 
         }
