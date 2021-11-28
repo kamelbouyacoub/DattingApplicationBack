@@ -10,9 +10,12 @@ namespace DattingApplication.Extensions
     {
         public static string GetUserName(this ClaimsPrincipal user)
         {
-            var userName = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return userName;
+          return user.FindFirst(ClaimTypes.Name)?.Value;
+        }
 
+        public static int GetUserId(this ClaimsPrincipal user)
+        {
+            return int.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
     }
 }

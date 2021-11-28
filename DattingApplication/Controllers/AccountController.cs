@@ -48,7 +48,8 @@ namespace DattingApplication.Controllers
             {
                 UserName = user.UserName,
                 Token = TokenService.CreateToken(user),
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
             };
         }
 
@@ -71,7 +72,8 @@ namespace DattingApplication.Controllers
                 UserName = user.UserName,
                 PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain)?.Url,
                 Token = TokenService.CreateToken(user),
-                KnownAs = user.KnownAs
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
             };
         }
         
