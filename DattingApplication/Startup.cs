@@ -1,5 +1,6 @@
 using DattingApplication.Extensions;
 using DattingApplication.MiddleWare;
+using DattingApplication.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace DattingApplication
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DattingApplication", Version = "v1" });
             });
             services.AddIdentityServices(Configuration);
-
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,14 +40,21 @@ namespace DattingApplication
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+            app.UseCors(x => x.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .WithOrigins("https://localhost:4200"));
+
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PrensenceHub>("hubs/presence");
             });
+
+
         }
     }
 }
