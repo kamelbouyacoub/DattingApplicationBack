@@ -32,19 +32,20 @@ namespace DattingApplication.Controllers
             this.PhotoService = photoService;
         }
 
-
+ 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
             var user = await UserRepository.GetUserByUserNameAsync(User.GetUserName());
             userParams.CurrentUsername = User.GetUserName();
-            if (string.IsNullOrEmpty(userParams.Gender))
-                userParams.Gender = user.Gender == "male" ? "female" : "male";
+                if (string.IsNullOrEmpty(userParams.Gender))
+            userParams.Gender = user.Gender == "male" ? "female" : "male";
             var users = await UserRepository.GetMembersAsync(userParams);
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount ,users.TotalPages);
             return Ok(users);
         }
 
+        [Authorize(Roles = "Member")]
         [HttpGet("{username}", Name ="GetUser" )]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {

@@ -1,4 +1,3 @@
-C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\obj\Debug\net5.0\DattingApplication.csprojAssemblyReference.cache
 C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\obj\Debug\net5.0\DattingApplication.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\obj\Debug\net5.0\DattingApplication.AssemblyInfoInputs.cache
 C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\obj\Debug\net5.0\DattingApplication.AssemblyInfo.cs
@@ -70,3 +69,9 @@ C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\
 C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\CloudinaryDotNet.dll
 C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Microsoft.Extensions.WebEncoders.dll
 C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\kamel.bouyacoub\udemyProject\DattingApplication\DattingApplicationBack\DattingApplication\obj\Debug\net5.0\DattingApplication.csprojAssemblyReference.cache

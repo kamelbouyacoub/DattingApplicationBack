@@ -1,5 +1,7 @@
 using DattingApplication.Data;
+using DattingApplication.Entities;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,15 +24,15 @@ namespace DattingApplication
             try
             {
                 var context = services.GetRequiredService<DataContext>();
-                 await context.Database.MigrateAsync();
-                await Seed.SeedUsers(context);
-
+                var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+                await context.Database.MigrateAsync();
+                await Seed.SeedUsers(userManager, roleManager);
             }catch(Exception ex)
             {
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error occured during migration");
             }
-
             await host.RunAsync();
         }
 
