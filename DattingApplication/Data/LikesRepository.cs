@@ -55,7 +55,7 @@ namespace DattingApplication.Data
 
         public async Task<AppUser> GetUserWithLikes(int userId)
         {
-            return await _context.Users.Include(x => x.LikedByUsers).FirstOrDefaultAsync(x => x.Id == userId);
+            return await _context.Users.Include(x => x.LikedByUsers).Include(x => x.LikedUsers).FirstOrDefaultAsync(x => x.Id == userId);
         }
     }
 }

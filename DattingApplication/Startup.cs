@@ -52,6 +52,7 @@ namespace DattingApplication
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<PrensenceHub>("hubs/presence");
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
 
 
