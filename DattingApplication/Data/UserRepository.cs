@@ -60,14 +60,14 @@ namespace DattingApplication.Data
             return await Context.Users.Include(u => u.Photos).SingleOrDefaultAsync(x => x.UserName == userName);
         }
 
+        public async Task<string> GetUserGender(string username)
+        {
+            return await Context.Users.Where(x => x.UserName == username).Select(u => u.Gender).FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
             return await Context.Users.Include(u => u.Photos).ToListAsync();
-        }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await Context.SaveChangesAsync() > 0;
         }
 
         public void Update(AppUser user)

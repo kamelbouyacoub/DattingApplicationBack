@@ -55,20 +55,19 @@ namespace DattingApplication.Data
 
         public async Task<PagedList<MessageDto>> GetMessageForUser(MessageParams messageParams)
         {
-            var query = _context.Messages.OrderByDescending(m => m.MessageSent).AsQueryable();
+            var query = _context.Messages.OrderByDescending(m => m.MessageSent)
+                                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
+                                .AsQueryable();
                                    
             var test = query.ToList();
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.Recipient.UserName == messageParams.UserName && u.RecipientDeleted == false),
-                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.UserName && u.SenderDeleted== false),
-                _ => query.Where(u => u.Recipient.UserName == messageParams.UserName && u.DateRead == null && u.RecipientDeleted == false)
+                "Inbox" => query.Where(u => u.RecipientUsername== messageParams.UserName && u.RecipientDeleted == false),
+                "Outbox" => query.Where(u => u.SenderUserName== messageParams.UserName && u.SenderDeleted== false),
+                _ => query.Where(u => u.RecipientUsername== messageParams.UserName && u.DateRead == null && u.RecipientDeleted == false)
             };
 
-            var message = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
-      
-                var count = message.Count();
-                return await PagedList<MessageDto>.CreateAsync(message, messageParams.PageNumber, messageParams.PageSize);
+                return await PagedList<MessageDto>.CreateAsync(query, messageParams.PageNumber, messageParams.PageSize);
 
         }
 
@@ -79,16 +78,15 @@ namespace DattingApplication.Data
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserName, string recipientUsername)
         {
-            var messages = await _context.Messages
-                                                    .Include(u => u.Sender).ThenInclude(u => u.Photos)
-                                                    .Include(u => u.Recipient).ThenInclude(u => u.Photos).
-                                                     Where(m => m.Recipient.UserName == currentUserName && m.RecipientDeleted == false
+            var messages = await _context.Messages. Where(m => m.Recipient.UserName == currentUserName && m.RecipientDeleted == false
                                                          && m.Sender.UserName == recipientUsername
                                                          || m.Recipient.UserName == recipientUsername && m.Sender.UserName == currentUserName && m.SenderDeleted == false
                                                         )
                                                         .OrderBy(m => m.MessageSent)
+                                                        .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                                                         .ToListAsync();
-            var unredMessages = messages.Where(m => m.DateRead == null && m.Recipient.UserName == currentUserName).ToList();
+
+            var unredMessages = messages.Where(m => m.DateRead == null && m.RecipientUsername == currentUserName).ToList();
 
             if (unredMessages.Any())
             {
@@ -96,22 +94,15 @@ namespace DattingApplication.Data
                 {
                     message.DateRead = DateTime.UtcNow;
                 }
-
-                await _context.SaveChangesAsync();
             }
 
-            return _mapper.Map <IEnumerable<MessageDto>>(messages);
+            return messages;
 
         }
 
         public void RemoveConnection(Connection connection)
         {
             _context.Connections.Remove(connection);
-        }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
         }
  
     }

@@ -17,16 +17,14 @@ namespace DattingApplication.Controllers
         private readonly SignInManager<AppUser> SignInManager;
 
         public readonly ITokenService TokenService;
-        public readonly IUserRepository UserRepository;
-        public readonly IMapper _mapper;
+         public readonly IMapper _mapper;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IUserRepository userRepository, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService,  IMapper mapper)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             TokenService = tokenService;
-            UserRepository = userRepository;
-            _mapper = mapper;
+             _mapper = mapper;
         }
 
         [HttpPost("register")]
